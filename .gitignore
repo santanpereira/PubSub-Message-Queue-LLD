@@ -1,0 +1,9 @@
+/target/
+*/target/**
+**/META-INF/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
