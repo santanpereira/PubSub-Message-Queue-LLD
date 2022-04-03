@@ -2,6 +2,7 @@ package com.santan.notifier;
 
 import com.santan.model.Topic;
 import com.santan.model.TopicSubscriber;
+import lombok.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,21 +19,26 @@ public class SubscriberNotifier {
         notificationHandlers = new HashMap<>();
     }
 
-    public void broadcast(Topic topic) {
+    public void broadcast(@NonNull Topic topic) {
         executor.submit(() -> broadcastToAllSubscriber(topic));
     }
 
-    public void broadcastToSubscriber(Topic topic, TopicSubscriber topicSubscriber) {
+    public void broadcastToSubscriber(@NonNull Topic topic, @NonNull TopicSubscriber topicSubscriber) {
         executor.submit(() -> broadcastToSubscriberHelper(topic, topicSubscriber));
     }
 
-    private void broadcastToAllSubscriber(Topic topic) {
+    public void removeTopicSubscriber(@NonNull Topic topic, @NonNull TopicSubscriber topicSubscriber) {
+        String subscriberId = topicSubscriber.getSubscriber().getId();
+        notificationHandlers.remove(subscriberId);
+    }
+
+    private void broadcastToAllSubscriber(@NonNull Topic topic) {
         for(TopicSubscriber topicSubscriber : topic.getTopicSubscribers()) {
             broadcastToSubscriberHelper(topic, topicSubscriber);
         }
     }
 
-    private void broadcastToSubscriberHelper(Topic topic, TopicSubscriber topicSubscriber) {
+    private void broadcastToSubscriberHelper(@NonNull Topic topic, @NonNull TopicSubscriber topicSubscriber) {
         String subscriberId = topicSubscriber.getSubscriber().getId();
 
         if(!notificationHandlers.containsKey(subscriberId)) {

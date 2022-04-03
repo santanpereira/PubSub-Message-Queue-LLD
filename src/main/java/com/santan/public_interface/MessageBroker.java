@@ -18,7 +18,7 @@ public class MessageBroker {
         this.subscriberNotifier = new SubscriberNotifier();
     }
 
-    public Topic createTopic(String topicName) {
+    public Topic createTopic(@NonNull final String topicName) {
         Topic topic = new Topic(topicName);
         topics.put(topicName, topic);
         return topic;
@@ -31,6 +31,7 @@ public class MessageBroker {
     public void unsubscribe(@NonNull final String topicName, @NonNull final Subscriber subscriber) {
         Topic topic = getTopic(topicName);
         TopicSubscriber topicSubscriber = getTopicSubscriber(topic, subscriber);
+        this.subscriberNotifier.removeTopicSubscriber(topic, topicSubscriber);
         topic.removeSubscriber(topicSubscriber);
     }
 
@@ -40,14 +41,14 @@ public class MessageBroker {
         this.subscriberNotifier.broadcast(publishTopic);
     }
 
-    public void resetOffset(@NonNull String topicName, @NonNull Subscriber subscriber, @NonNull Integer offset) {
+    public void resetOffset(@NonNull final String topicName, @NonNull final Subscriber subscriber, @NonNull final Integer offset) {
         Topic topic = getTopic(topicName);
         TopicSubscriber topicSubscriber = getTopicSubscriber(topic, subscriber);
         topicSubscriber.getOffset().set(offset);
         this.subscriberNotifier.broadcastToSubscriber(topic, topicSubscriber);
     }
 
-    private TopicSubscriber getTopicSubscriber(Topic topic, Subscriber subscriber) {
+    private TopicSubscriber getTopicSubscriber(@NonNull final Topic topic, @NonNull final  Subscriber subscriber) {
         for(TopicSubscriber topicSubscriber: topic.getTopicSubscribers()) {
             if(topicSubscriber.getSubscriber().equals(subscriber)) {
                 return topicSubscriber;
@@ -57,7 +58,7 @@ public class MessageBroker {
         return null;
     }
 
-    private Topic getTopic(String topicName) {
+    private Topic getTopic(@NonNull final String topicName) {
         return topics.get(topicName);
     }
 }

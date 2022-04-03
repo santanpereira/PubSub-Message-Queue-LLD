@@ -3,13 +3,14 @@ package com.santan.notifier;
 import com.santan.model.Message;
 import com.santan.model.Topic;
 import com.santan.model.TopicSubscriber;
+import lombok.NonNull;
 import lombok.SneakyThrows;
 
 public class NotificationHandler implements Runnable {
     private final Topic topic;
     private final TopicSubscriber topicSubscriber;
 
-    public NotificationHandler(Topic topic, TopicSubscriber topicSubscriber) {
+    public NotificationHandler(@NonNull Topic topic, @NonNull TopicSubscriber topicSubscriber) {
         this.topic = topic;
         this.topicSubscriber = topicSubscriber;
     }

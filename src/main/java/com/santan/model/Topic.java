@@ -13,7 +13,7 @@ public class Topic {
     private final List<Message> messages;
     private final List<TopicSubscriber> topicSubscribers;
 
-    public Topic(@NonNull final String topicName) {
+    public Topic(@NonNull String topicName) {
         this.topicId = UUID.randomUUID().toString();
         this.topicName = topicName;
         this.messages = new ArrayList<>();
@@ -36,15 +36,15 @@ public class Topic {
         return Collections.unmodifiableList(topicSubscribers);
     }
 
-    public synchronized void addMessage(final Message message) {
+    public synchronized void addMessage(@NonNull Message message) {
         messages.add(message);
     }
 
-    public void addSubscriber(@NonNull final TopicSubscriber subscriber) {
+    public void addSubscriber(@NonNull TopicSubscriber subscriber) {
         topicSubscribers.add(subscriber);
     }
 
-    public void removeSubscriber(@NonNull final TopicSubscriber subscriber) {
+    public void removeSubscriber(@NonNull TopicSubscriber subscriber) {
         topicSubscribers.remove(subscriber);
     }
 }
